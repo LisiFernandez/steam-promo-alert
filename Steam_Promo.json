@@ -1,0 +1,167 @@
+{
+  "name": "Steam-Promo",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "485b10c2-215e-4824-aba0-93be9f1130c5",
+      "name": "When clicking ‘Test workflow’"
+    },
+    {
+      "parameters": {
+        "url": "https://store.steampowered.com/api/appdetails?appids=1238860&cc=br&l=portuguese",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        200,
+        0
+      ],
+      "id": "64ddde3c-0505-4445-9d74-20ac56552c22",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "jsCode": "const app = $json[\"1238860\"];\n\nif (!app.success || !app.data.price_overview) {\n  throw new Error(\"Erro ao obter dados de preço.\");\n}\n\nconst price = app.data.price_overview;\n\nreturn [{\n  json: {\n    nome: app.data.name,\n    preco_original: price.initial / 100,\n    preco_desconto: price.final / 100,\n    desconto: price.discount_percent\n  }\n}];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        460,
+        20
+      ],
+      "id": "98011784-2e7c-42ba-be73-a39859466507",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": false,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "360d62c4-70c3-407b-99de-d47b319ec1d6",
+              "leftValue": "={{$json.preco_desconto}}\n",
+              "rightValue": 15,
+              "operator": {
+                "type": "number",
+                "operation": "lt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {
+          "ignoreCase": true
+        }
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        680,
+        40
+      ],
+      "id": "7307394f-d90a-4891-a523-bbb7ce35c8ff",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "url": "https://api.callmebot.com/whatsapp.php",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "phone",
+              "value": "+556784215984"
+            },
+            {
+              "name": "=text",
+              "value": "=🔥 Oferta Steam\n\n🎮 Battlefield 4\n💰 De: R${{$json.preco_original.toFixed(2)}}\n👉 Por: R${{$json.preco_desconto.toFixed(2)}} ({{$json.desconto}}% OFF)\n\n🔗 https://store.steampowered.com/app/1238860/Battlefield_4/\n"
+            },
+            {
+              "name": "apikey",
+              "value": "=1602914"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        900,
+        20
+      ],
+      "id": "1adcb6b5-2eb3-4ff8-8b0d-89964746a6ff",
+      "name": "HTTP Request1"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "84b2651a-2cbc-40c9-b0ae-75f6b764439d",
+  "meta": {
+    "instanceId": "5bed11da7e468956fe6ac185d497052b933127104a42b7d8555ce11e93a1ee24"
+  },
+  "id": "YIBbqb1DQsQK0qk8",
+  "tags": []
+}
