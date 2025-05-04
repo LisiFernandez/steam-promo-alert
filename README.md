@@ -41,7 +41,7 @@ A mensagem enviada contém:
 ## 📸 Prints do Projeto
 
 <p align="center">
-  <img src="imgs/fluxo-n8n.png" alt="Fluxo no n8n" width="800"/>
+  <img src="fluxo no n8n/Captura de tela 2025-05-03 224223" alt="Fluxo no n8n" width="800"/>
 </p>
 
 <p align="center">
