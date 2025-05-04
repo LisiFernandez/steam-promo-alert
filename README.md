@@ -38,17 +38,6 @@ A mensagem enviada contém:
 
 ---
 
-## 📸 Prints do Projeto
-
-<p align="center">
-  <img src="fluxo no n8n/Captura de tela 2025-05-03 224223" alt="Fluxo no n8n" width="800"/>
-</p>
-
-<p align="center">
-  <img src="imgs/mensagem-whatsapp.png" alt="Mensagem no WhatsApp" width="300"/>
-</p>
-
----
 
 ## 📁 Arquivos
 
@@ -59,7 +48,7 @@ A mensagem enviada contém:
 ## 🚀 Como Usar
 
 1. Crie uma conta no [n8n.io](https://n8n.io/) ou rode localmente
-2. Importe o `flow.json` no seu workspace do n8n
+2. Importe o `Steam_Promo.json` no seu workspace do n8n
 3. Configure seu número de WhatsApp e API Key do [CallMeBot](https://www.callmebot.com/)
 4. Teste o fluxo manualmente ou agende conforme preferir
 
